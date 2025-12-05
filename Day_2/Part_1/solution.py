@@ -1,53 +1,32 @@
 import sys
 
-inputFile = open(sys.argv[1], "r")
+sum = 0
 
-def isInvalid(number, min, max):
-    return min <= number or number <= max
+inputFile = open(sys.argv[1], "r")
 
 for line in inputFile:
     ranges = line.split(",")
 
-    for range in ranges:
-        rangeParts = range.split("-")
+    for rng in ranges:
+        rangeParts = rng.split("-")
         min = int(rangeParts[0])
         max = int(rangeParts[1])
 
-        minLen = len(rangeParts[0])
-        maxLen = len(rangeParts[1])
+        for num in range(min, max + 1):
+            numStr = str(num)
+            numStrLen = len(numStr)
 
-        # If it an even length th
-        if minLen % 2 == 0:
-            midPoint = minLen // 2
-            #print("midPoint", midPoint)
-            firstHalf = rangeParts[0][:midPoint]
+            # Skip the number if it is odd
+            if numStrLen % 2 != 0:
+                continue
             
-            dupNum = int(firstHalf + firstHalf)
-            #print("The dup num is ", dupNum)
-            pass
-    
-        if maxLen %2 == 0:
-            pass
+            midPoint = numStrLen // 2
+            firstHalf = numStr[:midPoint]
+            secondHalf = numStr[midPoint:]
 
-        # Basically all we want to do is only check even length ranges, an odd number can't be made of
-        # duplicates
-        # For even numbers we want to take the first half of the numerical string of the min and max
-        # for example 1234XXXX - 5678XXXX
-        # we would iterate from 1234 to 5678, if the number 1234 (first half) + 1234 (first half) is in the
-        # min max range then we have an invalid id
+            if firstHalf == secondHalf:
+                sum += num
 
+inputFile.close()
 
-        print("min str len: ", minLen, " parity: ", "even" if minLen % 2 == 0 else "odd")
-        print("max str len: ", maxLen, " parity: ", "even" if maxLen % 2 == 0 else "odd")
-        print("The difference between max and min", max - min)
-
-        print(min)
-        print(max)
-
-        print()
-
-def main():
-    pass
-
-if __name__ == "__main__":
-  main()
+print("Sum of the invalid ids: ", sum)
