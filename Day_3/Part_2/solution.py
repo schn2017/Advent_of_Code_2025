@@ -20,46 +20,43 @@ class Solution:
                     largestVal = val
                     largestIdx = index
 
-            availableIndices = []
-            for x in range(largestIdx + 1, len(sanitizedLine)):
-                availableIndices.append(x)
-
-            foundIndices = []
+            foundVals = []
 
             startingPos = largestIdx + 1
-            while len(foundIndices) < 11:
-                foundIdx = self.bleh(startingPos, 11 - len(foundIndices), sanitizedLine)
+            while len(foundVals) < 11:
+                foundIdx = self.bleh(startingPos, 11 - len(foundVals), sanitizedLine)
                 startingPos = foundIdx + 1
-                foundIndices.append(sanitizedLine[foundIdx])
+                foundVals.append(sanitizedLine[foundIdx])
 
             foundVal = str(largestVal)
-            for x in foundIndices:
+            for x in foundVals:
                 foundVal += str(x)
-
+            
             sum += int(foundVal)
-            print("The answer is", foundVal)
+            print("The found value is", foundVal)
+            print("The length of the found value is", len(foundVal))
         print("The answer is", sum)
 
     def bleh(self, startingPos, numRem, sanitizedLine):
         largestIdx = -1
         largestVal = -1
-        print("Starting pos", startingPos)
-        print("starting str val", sanitizedLine[startingPos])
-        print("Number remaining", numRem)
+        #print("Starting pos", startingPos)
+        #print("starting str val", sanitizedLine[startingPos])
+        #print("Number remaining", numRem)
 
-        for x in range(startingPos, len(sanitizedLine) - 1):
+        for x in range(startingPos, len(sanitizedLine)):
             val = int(sanitizedLine[x])
             if val > largestVal:
                 largestVal = val
                 largestIdx = x
 
             if len(sanitizedLine) - x - 1 < numRem:
-                print("breaking early", x, numRem)
+                #print("breaking early", x, numRem)
                 break
         
-        print("returning val", largestVal)
-        print("returning idx", largestIdx)
-        print()
+        #print("returning val", largestVal)
+        #print("returning idx", largestIdx)
+        #print()
 
         return largestIdx
 
