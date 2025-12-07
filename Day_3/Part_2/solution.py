@@ -9,10 +9,13 @@ class Solution:
 
             sanitizedLine = line.replace("\n", "")
 
+            # Find the Starting Digit
             largestIdx = -1
             largestVal = -1
             for index, value in enumerate(sanitizedLine):
-                if (len(sanitizedLine) - index - 1) < 12:
+
+                # Make sure there are 11 characters remaining
+                if (len(sanitizedLine) - index - 1) < 11:
                     break
 
                 val = int(value)
@@ -20,29 +23,25 @@ class Solution:
                     largestVal = val
                     largestIdx = index
 
-            foundVals = []
+            # Add the first digit to the list of values
+            foundVals = [str(largestVal)]
 
+            # Find the remaining 11 digits
             startingPos = largestIdx + 1
-            while len(foundVals) < 11:
-                foundIdx = self.bleh(startingPos, 11 - len(foundVals), sanitizedLine)
+            while len(foundVals) < 12:
+                foundIdx = self.findNextMaxValueIdx(startingPos, 12 - len(foundVals), sanitizedLine)
+
+                # Set starting position to the index after the found one
                 startingPos = foundIdx + 1
                 foundVals.append(sanitizedLine[foundIdx])
-
-            foundVal = str(largestVal)
-            for x in foundVals:
-                foundVal += str(x)
-            
+            foundVal = "".join(foundVals)
             sum += int(foundVal)
-            print("The found value is", foundVal)
-            print("The length of the found value is", len(foundVal))
+
         print("The answer is", sum)
 
-    def bleh(self, startingPos, numRem, sanitizedLine):
+    def findNextMaxValueIdx(self, startingPos, numRem, sanitizedLine):
         largestIdx = -1
         largestVal = -1
-        #print("Starting pos", startingPos)
-        #print("starting str val", sanitizedLine[startingPos])
-        #print("Number remaining", numRem)
 
         for x in range(startingPos, len(sanitizedLine)):
             val = int(sanitizedLine[x])
@@ -50,16 +49,11 @@ class Solution:
                 largestVal = val
                 largestIdx = x
 
-            if len(sanitizedLine) - x - 1 < numRem:
-                #print("breaking early", x, numRem)
+            # Stop looping if we have run out of characters to loop
+            if len(sanitizedLine) -  1 - x < numRem:    
                 break
         
-        #print("returning val", largestVal)
-        #print("returning idx", largestIdx)
-        #print()
-
         return largestIdx
-
 
 def main():
     solver = Solution()
@@ -67,3 +61,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
