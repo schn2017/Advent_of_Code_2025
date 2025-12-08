@@ -31,7 +31,6 @@ class Solution:
 
         return retVal
 
-
 def main():
     solver = Solution()
     solver.solve()
