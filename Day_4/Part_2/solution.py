@@ -9,11 +9,6 @@ class Solution:
     def solve(self):
         inputFile = open(sys.argv[1], "r")
 
-        self.width = 0
-        self.height = 0
-
-        self.nodeDict = {}
-
         for line in inputFile:
             sanitizedLine = line.replace("\n", "")
             if self.width == 0:
