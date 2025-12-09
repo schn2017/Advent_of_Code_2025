@@ -45,13 +45,24 @@ class Solution:
             self.height += 1
 
         inputFile.close()
-        numOfAcceptableNodes = 0
+        removedNodesCount = 0
+        foundNode = True
 
-        for x in self.nodeDict:
-            if len(self.nodeDict[x]) < 4:
-                numOfAcceptableNodes += 1
+        while foundNode:
+            foundNode = False
+            removableNodes = []
 
-        print(numOfAcceptableNodes)
+            for x in self.nodeDict:
+                if len(self.nodeDict[x]) < 4:
+                    removableNodes.append(x)
+                    foundNode = True
+
+            for node in removableNodes:
+                self.disconnectNodes(node)
+                del self.nodeDict[node]
+                removedNodesCount += 1
+
+        print("Nodes removed", removedNodesCount)
     
     def connectNodes(self, currentLocation, heightOffset, index):
         prevLocation = str(self.height + heightOffset) + "," + str(index)
@@ -63,6 +74,12 @@ class Solution:
             if not (prevLocation in self.nodeDict[currentLocation]):
                 self.nodeDict[currentLocation].append(prevLocation)
 
+    def disconnectNodes(self, nodeLocation):
+        if nodeLocation in self.nodeDict:
+            for otherNode in self.nodeDict[nodeLocation]:
+                if otherNode in self.nodeDict:
+                    self.nodeDict[otherNode].remove(nodeLocation)
+                    
 def main():
     solver = Solution()
     solver.solve()
